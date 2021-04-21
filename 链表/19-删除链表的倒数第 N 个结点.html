@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./ListNode.js"></script>
+  <script>
+    // let head = new ListNode(1)
+    let head = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5)))))
+    console.log('head', head)
+
+    // 方法一
+    // var removeNthFromEnd = function(head, n) {
+    //   if(!head) return null;
+    //   let ret = new ListNode(-1, head), pre = head, size = 0;
+    //   while(pre) {
+    //     pre = pre.next;
+    //     size++;
+    //   }
+    //   let frontN = size - n + 1;
+    //   console.log('frontN', frontN)
+    //   pre = ret;
+    //   while(--frontN && pre) {
+    //     console.log('frontN1', frontN)
+    //     pre = pre.next
+    //   }
+    //   pre.next = pre.next.next;
+    //   return ret.next;
+    // };
+    // 方法二
+    var removeNthFromEnd = function(head, n) {
+      if (!head) return null;
+      let ret = new ListNode(-1, head), pre = ret, cur = head;
+      for(let i = 0; i < n; i++) {
+        cur = cur.next;
+      }
+      if(!cur) return head.next;
+      while(cur) {
+        pre = pre.next;
+        cur = cur.next;
+      }
+      pre.next = pre.next.next;
+      return ret.next
+    };
+
+    console.log('removeNthFromEnd', removeNthFromEnd(head, 2))
+  </script>
+</head>
+<body>
+  
+</body>
+</html>

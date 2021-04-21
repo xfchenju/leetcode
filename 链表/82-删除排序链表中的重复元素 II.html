@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./ListNode.js"></script>
+  <script>
+    // let head = new ListNode(1)
+    let head = new ListNode(1, new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(3)))))
+    console.log('head', head)
+
+    var deleteDuplicates = function(head) {
+      if(!head) return null;
+      let ret = ListNode('虚头', head), pre = ret, cur = head;
+      while(pre && cur && cur.next) {
+        if(pre.next.val !== cur.next.val) {
+          pre.next = cur.next;
+          cur = cur.next.next;
+        } else {
+          cur = cur.next;
+        }
+      }
+      console.log('cur', cur)
+      // pre.next = null
+      return ret;
+    };
+
+    console.log('deleteDuplicates', deleteDuplicates(head))
+  </script>
+</head>
+<body>
+  
+</body>
+</html>
