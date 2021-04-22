@@ -1,0 +1,44 @@
+<!--
+ * @Description: 
+ * @Author: chenju
+ * @Date: 2021-04-21 11:29:54
+ * @LastEditors: chenju
+ * @LastEditTime: 2021-04-21 11:51:04
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script>
+    function ListNode(val, next) {
+      this.val = (val===undefined ? 0 : val);
+      this.next = (next===undefined ? null : next)
+    }
+
+    let head = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4))));
+
+    var swapPairs = function(head) {
+      console.log('head', head)
+      let ret = new ListNode(-1, head)
+      let pre = head, cur = head.next
+      pre.next = cur.next
+      cur.next = pre
+      ret.next = cur
+      if(pre === null || pre.next === null) {
+        return ret.next
+      } else {
+        pre.next = swapPairs(pre.next)
+      }
+      return ret.next
+    };
+
+    console.log('swapPairs', swapPairs(head))
+  </script>
+</head>
+<body>
+  
+</body>
+</html>

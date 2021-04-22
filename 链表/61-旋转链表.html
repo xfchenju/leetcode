@@ -1,0 +1,83 @@
+<!--
+ * @Description: 
+ * @Author: chenju
+ * @Date: 2021-04-21 10:15:31
+ * @LastEditors: chenju
+ * @LastEditTime: 2021-04-21 11:26:30
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script>
+      function ListNode(val, next) {
+      this.val = (val===undefined ? 0 : val);
+      this.next = (next===undefined ? null : next)
+    }
+
+    // let head = new ListNode(0, new ListNode(1, new ListNode(2, null)));
+    let head = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5)))));
+
+    console.log('head', head)
+
+    var rotateRight = function(head, k) {
+      let ret = new ListNode(-1, head);
+      let pre = head;
+      let n = 0;
+      while(pre) {
+        pre = pre.next;
+        n++;
+      }
+      let frontN = n - k % n;
+      pre = ret
+      let cur = ret.next;
+      let p = head.next;
+      let left = new ListNode(-1, head)
+      let right = new ListNode(-1)
+      let leftP = left
+      let rightP = right
+
+      for(let i = 0; i < n; i ++) {
+        pre = pre.next
+        if (i < frontN) {
+          leftP = leftP.next
+        } else if (i === frontN) {
+          leftP.next = null
+          rightP.next = pre
+          rightP = rightP.next
+        } 
+      }
+      while(rightP.next) {
+        rightP = rightP.next
+      }
+      rightP.next = left.next
+      return right.next;
+      
+      // 方法二
+      let pre = head, n = 1;
+      while(pre.next) {
+        pre = pre.next;
+        n += 1;
+      }
+
+      let frontN = n - k % n;
+      pre.next = head
+      for(let i = 0; i < frontN - 1; i++) {
+        head = head.next
+      }
+      
+      pre = head.next
+      head.next = null
+      return pre
+    };
+
+    console.log('res', rotateRight(head, 2))
+  </script>
+</head>
+<body>
+  
+</body>
+</html>

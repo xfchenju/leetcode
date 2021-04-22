@@ -1,3 +1,10 @@
+<!--
+ * @Description: 
+ * @Author: chenju
+ * @Date: 2021-04-22 13:41:23
+ * @LastEditors: chenju
+ * @LastEditTime: 2021-04-22 14:37:41
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,23 +15,39 @@
   <script src="./ListNode.js"></script>
   <script>
     // let head = new ListNode(1)
-    let head = new ListNode(1, new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(3)))))
+    let head = new ListNode(1, new ListNode(1, new ListNode(2, new ListNode(2, new ListNode(3)))))
     console.log('head', head)
 
     var deleteDuplicates = function(head) {
       if(!head) return null;
-      let ret = ListNode('虚头', head), pre = ret, cur = head;
-      while(pre && cur && cur.next) {
-        if(pre.next.val !== cur.next.val) {
-          pre.next = cur.next;
-          cur = cur.next.next;
-        } else {
+      let ret = new ListNode('虚头', head), pre = ret, cur = head;
+      // 最后一句cur = cur.next 导致cur可能为null，所以cur.next可能报错
+      // while(cur.next) {
+      while(cur && cur.next) {
+        if (pre.next.val !== cur.next.val) {
+          // pre.next就是cur 所以这里多余了
+          // pre.next = cur;
           cur = cur.next;
+          pre = pre.next
+        } else {
+          // 同上
+          // while(cur.next && cur.val === cur.next.val) {
+          while(cur && cur.next && cur.val === cur.next.val) {
+            cur = cur.next
+          }
+          // cur.next没有值时表示cur.next = null
+          // 这里也就多余了
+          // if (!cur.next) {
+          //   pre.next = null
+          // } else {
+          //   pre.next = cur.next
+          //   cur = cur.next
+          // }
+          pre.next = cur.next
+          cur = cur.next
         }
       }
-      console.log('cur', cur)
-      // pre.next = null
-      return ret;
+      return ret.next;
     };
 
     console.log('deleteDuplicates', deleteDuplicates(head))

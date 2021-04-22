@@ -1,0 +1,63 @@
+<!--
+ * @Description: 
+ * @Author: chenju
+ * @Date: 2021-04-20 15:30:03
+ * @LastEditors: chenju
+ * @LastEditTime: 2021-04-21 10:12:59
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script>
+    function ListNode(val, next) {
+      this.val = (val===undefined ? 0 : val);
+      this.next = (next===undefined ? null : next)
+    }
+
+    let head = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5)))));
+
+    const reverseN = function(head, n) {
+      if (!head) return null
+      let pre = head, cur = head, con = n
+      while(--n && pre) {
+        pre = pre.next
+      }
+      if (!pre) return head
+      pre = null
+      while(con-- && cur) {
+        [cur.next, pre, cur] = [pre, cur, cur.next]
+      }
+      head.next = cur
+      return pre
+    }
+    /**
+     * @param {ListNode} head
+     * @param {number} k
+     * @return {ListNode}
+     */
+    var reverseKGroup = function(head, k) {
+      let ret = new ListNode(-1, head)
+      let pre = ret;
+      
+      do {
+        pre.next = reverseN(pre.next, k)
+        for (let i = 0; i < k && pre; i++) {
+          pre = pre.next
+        }
+        if (!pre) break;
+      } while(true)
+
+      return ret.next
+    };
+
+    console.log(reverseKGroup(head, 2))
+  </script>
+</head>
+<body>
+  
+</body>
+</html>

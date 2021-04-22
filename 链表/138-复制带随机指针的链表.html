@@ -1,0 +1,36 @@
+<!--
+ * @Description: 
+ * @Author: chenju
+ * @Date: 2021-04-22 14:55:21
+ * @LastEditors: chenju
+ * @LastEditTime: 2021-04-22 15:04:01
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./Node.js"></script>
+  <script>
+    let head = new Node(7, new Node(13, new Node(11, new Node(10, new Node(1, null, 0), 2), 4), 0), null)
+
+    console.log('head', head)
+
+    var copyRandomList = function(head) {
+      let pre = head;
+      while(pre) {
+        // pre.next = pre
+        pre = pre.next
+      }
+      return head
+    };
+
+    console.log('copyRandomList', copyRandomList(head))
+  </script>
+</head>
+<body>
+  
+</body>
+</html>
