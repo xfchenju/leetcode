@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./ListNode.js"></script>
+    <script>
+        let head = new ListNode(1, new ListNode(4, new ListNode(3, new ListNode(2, new ListNode(5, new ListNode(2))))))
+        console.log('head', head)
+
+        var partition = function(head, x) {
+            if(!head) return null;
+            let p1 = new ListNode(-1);
+            let p2 = new ListNode(-1);
+            let left = p1, right = p2, pre = head, cur = head;
+            while(cur) {
+                if(cur.val < x) {
+                    left.next = cur
+                    left = left.next
+                } else {
+                    right.next = cur
+                    right = right.next
+                }
+                cur = cur.next;
+            }
+            left.next = p2.next
+            right.next = null
+            return p1.next
+        }
+
+        console.log('partition', partition(head, 3));
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

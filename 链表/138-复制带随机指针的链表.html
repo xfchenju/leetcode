@@ -19,12 +19,22 @@
     console.log('head', head)
 
     var copyRandomList = function(head) {
-      let pre = head;
+      let pre = head, q;
       while(pre) {
-        // pre.next = pre
-        pre = pre.next
+        pre.next = new Node(pre.val, pre.next, pre.random)
+        pre = pre.next.next
       }
-      return head
+			let ret = new Node(-1, head);
+			let cur = head;
+			console.log('headhead', head)
+			// while(cur) {
+			// 	console.log('i')
+			// 	ret.next = cur
+			// 	cur = cur.next
+			// }
+			// while()
+			console.log('res', ret)
+      return ret.next
     };
 
     console.log('copyRandomList', copyRandomList(head))
