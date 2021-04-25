@@ -3,7 +3,7 @@
  * @Author: chenju
  * @Date: 2021-04-22 14:55:21
  * @LastEditors: chenju
- * @LastEditTime: 2021-04-22 15:04:01
+ * @LastEditTime: 2021-04-25 17:53:35
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -13,31 +13,67 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <script src="./Node.js"></script>
+  <script src="./ListNode.js"></script>
   <script>
-    let head = new Node(7, new Node(13, new Node(11, new Node(10, new Node(1, null, 0), 2), 4), 0), null)
+    let head = new Node(7, new Node(13, null, ), null)
 
-    console.log('head', head)
+    var head1 = new Node(7, null, null)
+    var head2 = new Node(13, null, null)
+    var head3 = new Node(11, null, null)
+    var head4 = new Node(10, null, null)
+    var head5 = new Node(1, null, null)
+
+    head1.next = head2
+    head2.next = head3
+    head3.next = head4
+    head4.next = head5
+
+    head1.random = null
+    head2.random = head1
+    head3.random = head5
+    head4.random = head3
+    head5.random = head1
+
+    console.log('head', head1)
 
     var copyRandomList = function(head) {
-      let pre = head, q;
+      if(!head) return null
+      let pre = head
       while(pre) {
-        pre.next = new Node(pre.val, pre.next, pre.random)
-        pre = pre.next.next
+          pre.next = new Node(pre.val, pre.next, pre.random);
+          if(pre.next) pre = pre.next.next
       }
-			let ret = new Node(-1, head);
-			let cur = head;
-			console.log('headhead', head)
-			// while(cur) {
-			// 	console.log('i')
-			// 	ret.next = cur
-			// 	cur = cur.next
-			// }
-			// while()
-			console.log('res', ret)
-      return ret.next
+      pre = head.next;
+      while(pre) {
+          pre.random && (pre.random = pre.random.next);
+          // (pre = pre.next) && (pre = pre.next);
+          if(pre.next) pre = pre.next.next
+          else break
+      }
+      // 方法一
+      // let p = q = head.next
+      // while(q.next) {
+      //   head.next = head.next.next;
+      //   q.next = q.next.next;
+      //   head = head.next;
+      //   q = q.next
+      // }
+      // head.next = null
+      // return p
+      // 方法二
+      let new_head = head.next;
+      let p = head;
+      let q
+      while(p) {
+        q = p.next
+        p.next = q.next
+        if (p.next) q.next = p.next.next
+        p = p.next
+      }
+      return new_head
     };
 
-    console.log('copyRandomList', copyRandomList(head))
+    console.log('copyRandomList', copyRandomList(head1))
   </script>
 </head>
 <body>
