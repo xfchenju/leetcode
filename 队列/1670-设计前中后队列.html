@@ -1,0 +1,73 @@
+<!--
+ * @Description: 
+ * @Author: chenju
+ * @Date: 2021-04-26 15:47:34
+ * @LastEditors: chenju
+ * @LastEditTime: 2021-04-26 17:34:41
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script>
+    function ListNode(val, next, pre) {
+      this.val = (val === undefined ? 0 : val);
+      this.next = (next === undefined ? null : next);
+      this.pre = (pre === undefined ? null : pre);
+      
+    }
+
+    function hasRepeat(str) {
+  let arr = str.split('')
+  let removeArr = [...new Set(arr)];
+  console.log(arr, removeArr)
+  if(arr.length !== removeArr.length) {
+    return true
+  } else {
+    return false;
+  }
+}
+
+console.log(hasRepeat('ab'))
+    
+    class Queue {
+      constructor() {
+        let head = new ListNode(-1)
+        let tail = new ListNode(-1)
+        
+        head.next = tail;
+        head.pre = null;
+        tail.next = null;
+        tail.pre = head;
+      }
+
+      pushBack(val) {
+
+      }
+
+      pushFront(val) {
+
+      }
+
+      popBack() {
+
+      }
+
+      popFront() {
+
+      }
+
+      isEmpty() {
+
+      }
+    }
+
+  </script>
+</head>
+<body>
+  
+</body>
+</html>

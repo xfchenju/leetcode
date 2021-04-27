@@ -1,0 +1,88 @@
+<!--
+ * @Description: 
+ * @Author: chenju
+ * @Date: 2021-04-26 10:53:06
+ * @LastEditors: chenju
+ * @LastEditTime: 2021-04-26 13:53:00
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script>
+    var MyCircularQueue = function(k) {
+      this.arr = Array(k)
+      this.head = 0;
+      this.tail = 0;
+      this.cnt = 0
+    };
+
+    /** 
+     * @param {number} value
+     * @return {boolean}
+     */
+    MyCircularQueue.prototype.enQueue = function(value) {
+      if(this.isFull()) return false;
+      this.arr[this.tail] = value
+      if(this.tail === (this.arr.length - 1)) {
+        this.tail = 0
+      } else {
+        this.tail += 1;
+      }
+      this.cnt += 1;
+      return true;
+    };
+
+    /**
+     * @return {boolean}
+     */
+    MyCircularQueue.prototype.deQueue = function() {
+      if(this.isEmpty()) return false;
+      delete this.arr[this.head]
+      if(this.head === (this.arr.length - 1)) {
+        this.head = 0
+      } else {
+        this.head += 1;
+      }
+      this.cnt -= 1;
+      return true
+    };
+
+    /**
+     * @return {number}
+     */
+    MyCircularQueue.prototype.Front = function() {
+      if(this.isEmpty()) return -1;
+      return this.arr[this.head]
+    };
+
+    /**
+     * @return {number}
+     */
+    MyCircularQueue.prototype.Rear = function() {
+      if(this.isEmpty()) return -1;
+      return this.arr[(this.tail - 1 + this.arr.length) % this.arr.length]
+    };
+
+    /**
+     * @return {boolean}
+     */
+    MyCircularQueue.prototype.isEmpty = function() {
+      return this.cnt === 0;
+    };
+
+    /**
+     * @return {boolean}
+     */
+    MyCircularQueue.prototype.isFull = function() {
+      return this.cnt === this.arr.length
+    };
+  </script>
+</head>
+<body>
+  
+</body>
+</html>

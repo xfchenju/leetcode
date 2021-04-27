@@ -1,0 +1,59 @@
+<!--
+ * @Description: 
+ * @Author: chenju
+ * @Date: 2021-04-26 17:35:25
+ * @LastEditors: chenju
+ * @LastEditTime: 2021-04-26 17:35:44
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script>
+    function hasRepeat(str) {
+      let arr = str.split('')
+      let removeArr = [...new Set(arr)];
+      if(arr.length !== removeArr.length) {
+        return true
+      } else {
+        return false;
+      }
+    }
+
+    var buddyStrings = function(a, b) {
+      if (a.length !== b.length) {
+        return false;
+      }
+      if(a === b && hasRepeat(a)) return true; 
+      let arr = []
+      for(let i in a) {
+        let achar = a.charAt(i);
+        let bchar = b.charAt(i);
+        if(achar !== bchar) {
+          if(arr.length < 4) {
+            arr.push(achar)
+            arr.push(bchar)
+          } else {
+            return false
+          }
+        }
+      }
+      if(arr.length === 4) {
+        if(arr[0] === arr[3] && arr[1] === arr[2]) {
+          return true
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    };
+  </script>
+</head>
+<body>
+  
+</body>
+</html>
