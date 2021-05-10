@@ -1,0 +1,81 @@
+<!--
+ * @Description: 
+ * @Author: chenju
+ * @Date: 2021-05-08 16:52:50
+ * @LastEditors: chenju
+ * @LastEditTime: 2021-05-08 18:03:56
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        // 前缀和 方法
+        var longestWPI = function(hours) {
+            let max = 0;
+            let stack = [0]
+            for (let i = 0; i < hours.length; i++) {
+                let hour = hours[i];
+                if (hour > 8) {
+                    stack.push(stack[stack.length - 1] + 1)
+                } else {
+                    stack.push(stack[stack.length - 1] - 1)
+                }
+            }
+            for (let i = 0; i < stack.length - 1; i++) {
+                for(let j = i + 1; j < stack.length; j++) {
+                    if (stack[j] - stack[i] > 0) {
+                        max = Math.max(max, j - i);
+                    }
+                }
+            }
+            return max;
+        };
+        // 前缀和 + 单调栈 
+        var longestWPI = function(hours) {
+            let max = 0;
+            let stack = [0]
+            // 前缀和
+            for (let i = 0; i < hours.length; i++) {
+                let hour = hours[i];
+                if (hour > 8) {
+                    stack.push(stack[stack.length - 1] + 1)
+                } else {
+                    stack.push(stack[stack.length - 1] - 1)
+                }
+            }
+            // 单调递减栈
+            let stack2 = [0]
+            for (let i = 0; i < stack.length - 1; i++) {
+                if (stack[stack2[stack2.length - 1]] > stack[i]) stack2.push(i)
+            }
+            console.log('stack2', stack2)
+            
+            // 从右到左计算最大跨度
+            for(let i = stack.length - 1; i > 0; i--) {
+                while(stack2.length && stack[stack2[stack2.length - 1]] < stack[i]) {
+                    max = Math.max(max, i - stack2.pop())
+                }
+            }
+
+            return max;
+        };
+        // let hours = [9,9,6,0,6,6,9]
+        // let hours = [8,12,7,6,10,10,9,11,12,6]
+        // let hours = [6, 6, 9]
+        // let hours = [9, 9, 6]
+        // let hours = [6, 9, 9]
+        // let hours = [6,6,6,6,9,9,9,9,9]
+        // let hours = [6,6,6]
+        // let hours = [6,9,6]
+        let hours = [10,5,9,7,9,9,5,5,7,10]
+        console.log(longestWPI(hours))
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
