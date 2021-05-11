@@ -1,0 +1,137 @@
+<!--
+ * @Description: 
+ * @Author: chenju
+ * @Date: 2021-05-10 10:32:40
+ * @LastEditors: chenju
+ * @LastEditTime: 2021-05-10 16:20:02
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script>
+    // 根据前序遍历和中序遍历获取 原二叉树
+    function NodeTree (root, left, right) {
+      this.root = root || null;
+      this.left = root ? left || null : null;
+      this.right = root ? right || null : null;
+    }
+    function restoreTree(preTree, inTree) {
+      if (!preTree.length) return null 
+      console.log('前序结果', preTree)
+      let root = preTree[0]
+      let tree = new NodeTree(root)
+      console.log('根节点', root)
+      for (let i = 0; i < inTree.length; i++) {
+        console.log('中序', inTree[i])
+        if (inTree[i] === root) {
+          let lchild = inTree.slice(0, i)
+          let rchild = inTree.slice(i + 1)
+          console.log('中序lchild', lchild)
+          console.log('中序rchild', rchild)
+          let pre_lchild = preTree.slice(1, i + 1)
+          let pre_rchild = preTree.slice(i + 1)
+          console.log('前序lchild', pre_lchild)
+          console.log('前序rchild', pre_rchild)
+          tree.left = restoreTree(pre_lchild, lchild)
+          tree.right = restoreTree(pre_rchild, rchild)
+        }
+      }
+      return tree;
+    }
+    // let preTree = [1, 5, 2, 3, 4]
+    // let inTree = [5, 1, 3, 2, 4]
+    let preTree = [1, 2, 4, 9, 5, 6, 10, 3, 7, 8]
+    let inTree = [4, 9, 2, 10, 6, 5, 1, 3, 8, 7]
+    console.log(restoreTree(preTree, inTree))
+    
+
+    /*
+    * [144] 二叉树的前序遍历
+    */
+    /**
+     * Definition for a binary tree node.
+     * function TreeNode(val, left, right) {
+     *     this.val = (val===undefined ? 0 : val)
+     *     this.left = (left===undefined ? null : left)
+     *     this.right = (right===undefined ? null : right)
+     * }
+     */
+    const preorder = function(root, ans = []) {
+      if (!root) return null;
+      ans.push(root.val);
+      preorder(root.left, ans);
+      preorder(root.right, ans);
+    }
+    /**
+     * @param {TreeNode} root
+     * @return {number[]}
+     */
+    var preorderTraversal = function(root) {
+      let ans = [];
+      preorder(root, ans);
+      return ans;
+    };
+
+    /*
+    * [589] N 叉树的前序遍历
+    */
+    /**
+     * // Definition for a Node.
+     * function Node(val, children) {
+     *    this.val = val;
+     *    this.children = children;
+     * };
+     */
+    const _preorder = function(root, ans = []) {
+      if (!root) return null;
+      ans.push(root.val);
+      for (let i = 0; i < root.children.length; i++) {
+        _preorder(root.children[i], ans)
+      }
+    }
+    /**
+     * @param {Node} root
+     * @return {number[]}
+     */
+    var preorder = function(root) {
+        let ans = [];
+        _preorder(root, ans);
+        return ans;
+    };
+
+    /*
+    * [226] 翻转二叉树
+    */
+    /**
+     * Definition for a binary tree node.
+     * function TreeNode(val, left, right) {
+     *     this.val = (val===undefined ? 0 : val)
+     *     this.left = (left===undefined ? null : left)
+     *     this.right = (right===undefined ? null : right)
+     * }
+     */
+    /**
+     * @param {TreeNode} root
+     * @return {TreeNode}
+     */
+    var invertTree = function(root) {
+      if (!root) return null;
+      let tmp = root.left;
+      root.left = root.right;
+      root.right = tmp;
+      invertTree(root.left);
+      invertTree(root.right);
+      return root;
+    };
+
+    
+  </script>
+</head>
+<body>
+  
+</body>
+</html>
