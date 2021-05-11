@@ -1,0 +1,165 @@
+<!--
+ * @Description: 
+ * @Author: chenju
+ * @Date: 2021-05-11 15:50:32
+ * @LastEditors: chenju
+ * @LastEditTime: 2021-05-11 17:57:31
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script>
+    /*
+    * [107] 二叉树的层序遍历 II
+    */
+    /**
+     * Definition for a binary tree node.
+     * function TreeNode(val, left, right) {
+     *     this.val = (val===undefined ? 0 : val)
+     *     this.left = (left===undefined ? null : left)
+     *     this.right = (right===undefined ? null : right)
+     * }
+     */
+    const getResult = function(root, k, ans = []) {
+      if (!root) return null;
+      if (k === ans.length) ans.push([])
+      ans[k].push(root.val);
+      getResult(root.left, k + 1, ans)
+      getResult(root.right, k + 1, ans)
+    }
+    /**
+     * @param {TreeNode} root
+     * @return {number[][]}
+     */
+    var levelOrderBottom = function(root) {
+      let k = 0;
+      let ans = [];
+      getResult(root, k, ans);
+      return ans.reverse();
+    };
+
+    /*
+    * [103] 二叉树的锯齿形层序遍历
+    */
+    /**
+     * Definition for a binary tree node.
+     * function TreeNode(val, left, right) {
+     *     this.val = (val===undefined ? 0 : val)
+     *     this.left = (left===undefined ? null : left)
+     *     this.right = (right===undefined ? null : right)
+     * }
+     */
+    const getResult = function(root, k, ans = []) {
+      if (!root) return null;
+      if (k === ans.length) ans.push([])
+      ans[k].push(root.val);
+      getResult(root.left, k + 1, ans)
+      getResult(root.right, k + 1, ans)
+    }
+    /**
+     * @param {TreeNode} root
+     * @return {number[][]}
+     */
+    var zigzagLevelOrder = function(root) {
+      let k = 0, ans = [];
+      getResult(root, k, ans);
+      for (let i = 0; i < ans.length; i++) {
+        if (i % 2 !== 0) {
+          ans[i] = ans[i].reverse()
+        }
+      }
+      return ans;
+    };
+
+    /*
+    * [110] 平衡二叉树
+    */
+    /**
+     * Definition for a binary tree node.
+     * function TreeNode(val, left, right) {
+     *     this.val = (val===undefined ? 0 : val)
+     *     this.left = (left===undefined ? null : left)
+     *     this.right = (right===undefined ? null : right)
+     * }
+     */
+    const getHeight = function(root) {
+      if (!root) return 0;
+      let l = getHeight(root.left);
+      let r = getHeight(root.right);
+      if (l < 0 || r < 0) return -2;
+      if(Math.abs(l - r) > 1) return -2;
+      return Math.max(l, r) + 1;
+    }
+    /**
+     * @param {TreeNode} root
+     * @return {boolean}
+     */
+    var isBalanced = function(root) {
+      return getHeight(root) >= 0;
+    };
+
+
+    /*
+    * [105] 从前序与中序遍历序列构造二叉树
+    */
+    /**
+     * Definition for a binary tree node.
+     * function TreeNode(val, left, right) {
+     *     this.val = (val===undefined ? 0 : val)
+     *     this.left = (left===undefined ? null : left)
+     *     this.right = (right===undefined ? null : right)
+     * }
+     */
+    /**
+     * @param {number[]} preorder
+     * @param {number[]} inorder
+     * @return {TreeNode}
+     */
+    var buildTree = function(preorder, inorder) {
+      if (!preorder.length || !inorder.length) return null;
+      let root = preorder[0];
+      let tree = new TreeNode(root);
+      // console.log('根节点', root)
+      for (let i = 0; i < inorder.length; i++) {
+        if (inorder[i] === root) {
+          let inLeft = inorder.slice(0, i);
+          let inRight = inorder.slice(i + 1);
+          // console.log('中序左子树', inLeft);
+          // console.log('中序右子树', inRight);
+          let preLeft = preorder.slice(1, i + 1);
+          let preRight = preorder.slice(i + 1);
+          // console.log('前序左子树', preLeft);
+          // console.log('前序右子树', preRight);
+          tree.left = buildTree(preLeft, inLeft);
+          tree.right = buildTree(preRight, inRight);
+          continue;
+        }
+      }
+      return tree;
+    };
+    // 更好的方法  看不大懂。。。
+    var buildTree = function(preorder, inorder) {
+      if (!preorder.length || !inorder.length) return null;
+      let p = i = 0;
+      const build = (stop) => {
+        if (inorder[i] !== stop) {
+          let root = new TreeNode(preorder[p++]);
+          root.left = build(root.val);
+          i++;
+          root.right = build(stop);
+          return root;
+        }
+        return null;
+      }
+      return build();
+    };
+  </script>
+</head>
+<body>
+  
+</body>
+</html>
