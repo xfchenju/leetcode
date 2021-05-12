@@ -1,0 +1,164 @@
+<!--
+ * @Description: 
+ * @Author: chenju
+ * @Date: 2021-05-12 13:19:48
+ * @LastEditors: chenju
+ * @LastEditTime: 2021-05-12 16:48:59
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script>
+    /*
+    * [222] 完全二叉树的节点个数
+    */
+    /**
+     * Definition for a binary tree node.
+     * function TreeNode(val, left, right) {
+     *     this.val = (val===undefined ? 0 : val)
+     *     this.left = (left===undefined ? null : left)
+     *     this.right = (right===undefined ? null : right)
+     * }
+     */
+    /**
+     * @param {TreeNode} root
+     * @return {number}
+     */
+    var countNodes = function(root) {
+      if (!root) return 0;
+      return countNodes(root.left) + countNodes(root.right) + 1;
+    };
+
+    
+    // 剑指offer 54.二叉搜索树的第k大节点
+    /**
+     * @param {TreeNode} root
+     * @param {number} k
+     * @return {number}
+     */
+    var kthLargest = function(root, k) {
+        const getCount = function(root) {
+            if (!root) return 0;
+            return getCount(root.left) + getCount(root.right) + 1;
+        }
+        let cnt_r = getCount(root.right);
+        if (k <= cnt_r) return kthLargest(root.right, k);
+        if (k === cnt_r + 1) return root.val;
+        return kthLargest(root.left, k - cnt_r - 1);
+    };
+    // NOTE 二叉搜索树的中序遍历是从小到大排序的
+    // 中序遍历计算
+    const inOrder = function(root, ans = []) {
+        if (!root) return null;
+        inOrder(root.left, ans);
+        ans.push(root.val);
+        inOrder(root.right, ans);
+    }
+    var kthLargest = function(root, k) {
+        let ans = [];
+        inOrder(root, ans);
+        return ans[ans.length - k];
+    };
+
+    // 剑指 Offer 26. 树的子结构
+    const isMatch = function(A, B) {
+        if (B === null) return true;
+        if (A === null) return false;
+        if (A.val !== B.val) return false;
+        return isMatch(A.left, B.left) && isMatch(A.right, B.right);
+    }
+    /**
+     * @param {TreeNode} A
+     * @param {TreeNode} B
+     * @return {boolean}
+     */
+    var isSubStructure = function(A, B) {
+        if (B === null) return false;
+        if (A === null) return false;
+        if (A.val === B.val && isMatch(A, B)) return true;
+        return isSubStructure(A.left, B) || isSubStructure(A.right, B);
+    };
+
+    /*
+    * [662] 二叉树最大宽度
+    */
+    /**
+     * Definition for a binary tree node.
+     * function TreeNode(val, left, right) {
+     *     this.val = (val===undefined ? 0 : val)
+     *     this.left = (left===undefined ? null : left)
+     *     this.right = (right===undefined ? null : right)
+     * }
+     */
+    /**
+     * @param {TreeNode} root
+     * @return {number}
+     */
+    var widthOfBinaryTree = function(root) {
+      let queue = [], ans = 0;
+      queue.push([root, 0]);
+      while (queue.length) {
+        let cnt = queue.length, l = queue[0][1], r = queue[queue.length - 1][1];
+        for (let i = 0; i < cnt; i++) {
+          const data = queue.shift();
+          const n = data[0], ind = data[1];
+          r = ind;
+          // ind - l 是将范围缩小，防止超界的优化
+          if (n.left) queue.push([n.left, (ind - l) * 2]);
+          if (n.right) queue.push([n.right, (ind - l) * 2 - 0 + 1]);
+        }
+        ans = Math.max(ans, r - l + 1);
+      }
+      return ans;
+    };
+    
+    // 968. 监控二叉树
+    // 参考https://leetcode-cn.com/problems/binary-tree-cameras/solution/shou-hua-tu-jie-cong-di-gui-you-hua-dao-dong-tai-g/
+    var minCameraCover = function(root) {
+      const minCam = (root) => {
+          if (!root) {
+              return {
+                  withCam: Infinity,
+                  noCamWatchBySon: 0,
+                  noCamWatchByParent: 0
+              }
+          }
+
+          const left = minCam(root.left);
+          const right = minCam(root.right);
+
+          const withCam = 1 + Math.min(
+              left.withCam + right.noCamWatchByParent,
+              left.noCamWatchByParent + right.withCam,
+              left.noCamWatchByParent + right.noCamWatchByParent
+          )
+
+          const noCamWatchByParent = Math.min(
+              left.withCam + right.noCamWatchBySon,
+              left.noCamWatchBySon + right.withCam,
+              left.noCamWatchBySon + right.noCamWatchBySon,
+              left.withCam + right.withCam
+          )
+
+          const noCamWatchBySon = Math.min(
+              left.withCam + right.noCamWatchBySon,
+              left.noCamWatchBySon + right.withCam,
+              left.withCam + right.withCam
+          )
+
+          return {withCam, noCamWatchByParent, noCamWatchBySon}
+      }
+      const res = minCam(root);
+      return Math.min(res.withCam, res.noCamWatchBySon); // 当前节点放置节点 or 当前节点没有放置但是被子节点监控
+    };
+
+  </script>
+</head>
+<body>
+  
+</body>
+</html>
