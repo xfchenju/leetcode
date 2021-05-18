@@ -1,9 +1,16 @@
 /*
- * @Description: 堆
+ * @Description: 
  * @Author: chenju
- * @Date: 2021-05-14 13:29:21
+ * @Date: 2021-05-17 13:06:22
  * @LastEditors: chenju
- * @LastEditTime: 2021-05-17 10:42:40
+ * @LastEditTime: 2021-05-17 14:35:43
+ */
+
+/** 373. 查找和最小的K对数字
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @param {number} k
+ * @return {number[][]}
  */
 // 大顶堆
 class Heap {
@@ -59,7 +66,38 @@ class Heap {
     return this.cnt;
   }
 }
+var kSmallestPairs = function(nums1, nums2, k) {
+    let heap = new Heap();
+    let arr = [];
+    for (let i = 0; i < nums1.length; i++) {
+        for (let j = 0; j < nums2.length; j++) {
+            let sum = nums1[i] + nums2[j];
+            if (heap.size() >= k && heap.top() <= sum) break;
+            // 这个obj在比较的时候会首先执行valueOf方法，用这个可以记录x，y的值
+            let obj = {
+                x: nums1[i],
+                y: nums2[j],
+                sum: sum,
+                valueOf: function() {
+                    return sum;
+                }
+            }
+            heap.push(obj);
+            if (heap.size() > k) heap.pop() 
+        }
+    }
+    let res = heap.data.map(item => {
+        return [item.x, item.y]
+    })
+    return res
+};
 
+
+/** 703. 数据流中的第 K 大元素
+ * @param {number} k
+ * @param {number[]} nums
+ */
+// 小顶堆
 class LessHeap {
   constructor() {
     this.data = [];
@@ -114,37 +152,52 @@ class LessHeap {
   }
 }
 
-// let heap = new Heap()
-// let startTime = new Date().getTime();
+var KthLargest = function(k, nums) {
+    this.k = k;
+    this.lessheap = new LessHeap();
+    for (let i = 0; i < nums.length; i++) {
+        this.lessheap.push(nums[i]);
+        if (i >= this.k) {
+            this.lessheap.pop()
+        }
+    }
+};
 
+/** 
+ * @param {number} val
+ * @return {number}
+ */
+KthLargest.prototype.add = function(val) {
+    this.lessheap.push(val);
+    if (this.lessheap.size() > this.k) {
+        this.lessheap.pop()
+    }
+    return this.lessheap.top()
+};
 
-// const arr = [9, 6, 8, 4, 5, 2, 1, 3];
-
-// for (let i = 0; i < arr.length; i++) {
-//   heap.push(arr[i]);
-// }
-
-// console.log('heap', heap)
-
-// let arr2 = []
-// for (let i = 0; i < arr.length; i++) {
-//   arr2.push(heap.pop())
-// }
-
-// console.log(arr2);
-
-// let arr = [0,0,1,2,4,2,2,3,1,4], k = 8;
-// let heap = new Heap()
-// for (let i = 0; i < arr.length; i++) {
-//     heap.push(arr[i])
-//     if (heap.size() >k) heap.pop(); 
-// }
-// console.log(heap);
-
-let lessheap = new LessHeap();
-
-lessheap.push(3)
-lessheap.push(2)
-lessheap.push(1)
-
-console.log(lessheap)
+// 692. 前K个高频单词
+// 这里没有用堆的方式，用堆的话需要重写堆中比较的方法
+var topKFrequent = function(words, k) {
+  let arr = {};
+  for (let i = 0; i < words.length; i++) {
+      if (arr[words[i]]) arr[words[i]]++;
+      else arr[words[i]] = 1;
+  }
+  let newList = [];
+  for (let i in arr) {
+      newList.push([i, arr[i]])
+  }
+  let res = newList.sort((a, b) => {
+      if (a[1] !== b[1]) {
+          return b[1] - a[1]
+      } else {
+          return a[0].localeCompare(b[0])
+      }
+  })
+  console.log('res', res)
+  let ress = [];
+  for (let i = 0; i < k; i++) {
+      ress.push(res[i][0])
+  }
+  return ress;
+};
